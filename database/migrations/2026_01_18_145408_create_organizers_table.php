@@ -16,10 +16,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('name');
             $table->string('email');
-            $table->string('password');
-            $table->string('profile_image');
+            $table->string('password')->nullable();
+            $table->string('profile_image')->nullable();
             $table->string('contact');
-            $table->string('address');
+            $table->string('address')->nullable();
+            $table->string('event_name');
             $table->string('event_type');
             $table->string('status')->default('pending');
             $table->date('expire_date')->nullable;
