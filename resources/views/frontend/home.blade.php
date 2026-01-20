@@ -45,7 +45,7 @@
                             <p class="text-gray-600">Fill in the details below to list your event</p>
                         </div>
 
-                        <form method="post" action="{{ route('event_request') }}" class="space-y-6">
+                        <form action="{{ route('event_request') }}" method="POST" class="space-y-6">
                             @csrf
                             <!-- Organizer Section -->
                             <div class="space-y-4">
