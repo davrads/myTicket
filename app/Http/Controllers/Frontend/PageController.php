@@ -30,7 +30,7 @@ $organizer->contact = $request->contact;
 $organizer->event_name = $request->event_name;
 $organizer->event_type = $request->event_type;
 $organizer->save();
-Mail::to("bkastoo12@gmail.com")->send(new EventRequestNotification($organizer));
+Mail::to("vikasbsnt123@gmail.com")->send(new EventRequestNotification($organizer));
 return redirect()->back();
 }
 

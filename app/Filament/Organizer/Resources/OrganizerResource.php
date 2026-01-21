@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Organizer\Resources;
 
-use App\Filament\Resources\OrganizerResource\Pages;
-use App\Filament\Resources\OrganizerResource\RelationManagers;
+use App\Filament\Organizer\Resources\OrganizerResource\Pages;
+use App\Filament\Organizer\Resources\OrganizerResource\RelationManagers;
 use App\Models\Organizer;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class OrganizerResource extends Resource
 {
@@ -22,31 +23,56 @@ class OrganizerResource extends Resource
     {
         return false;
     }
+public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('id', Auth::Guard('organizer')->user()->id);
+}
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('status')
+                Forms\Components\TextInput::make('name')
                     ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('contact')
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\TextInput::make('address')
+                    ->maxLength(255)
+                    ->default(null),
+                    Forms\Components\TextInput::make('event_name')
+                    ->required()
+                    ->maxLength(255),
+                    Forms\Components\Select::make('event_type')
                     ->options([
-                        'pending' => 'Pending',
-                        'approved' => 'Approved',
-                        'rejected' => 'Rejected',
-                    ]),
-                Forms\Components\DatePicker::make('expire_date'),
-            ]);
+                        "concert" => "Concert",
+                        "workshop" => "Workshop",
+                        "conference" => "Conference",
+                        "sport" => "Sport",
+                        "festival" => "Festival",
+                        "seminar" => "Seminar",
+                        "exhibition" => "Exhibition",
+                        ])
+                        ->required(),
+                        Forms\Components\FileUpload::make('profile_image')
+                            ->image(),
+                        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('profile_image'),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('profile_image'),
-                Tables\Columns\TextColumn::make('contact')
+                    Tables\Columns\TextColumn::make('contact')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('address')
                     ->searchable(),
@@ -76,7 +102,7 @@ class OrganizerResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -93,7 +119,7 @@ class OrganizerResource extends Resource
         return [
             'index' => Pages\ListOrganizers::route('/'),
             'create' => Pages\CreateOrganizer::route('/create'),
-            // 'edit' => Pages\EditOrganizer::route('/{record}/edit'),
+            'edit' => Pages\EditOrganizer::route('/{record}/edit'),
         ];
     }
 }
