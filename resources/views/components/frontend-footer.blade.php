@@ -6,7 +6,7 @@
                         <div class="gradient-bg text-white p-2 rounded-lg">
                             <i class="fas fa-ticket-alt text-xl"></i>
                         </div>
-                        <span class="text-2xl font-bold">EventFlow</span>
+                        <span class="text-2xl font-bold">MyTicket</span>
                     </div>
                     <p class="text-gray-400">Your perfect event ticketing platform with advanced features and secure booking.</p>
                 </div>
@@ -35,10 +35,10 @@
                     <h4 class="text-xl font-bold mb-6">Technologies</h4>
                     <div class="flex flex-wrap gap-2">
                         <span class="px-3 py-1 bg-gray-800 rounded">Laravel</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded">Filament</span>
                         <span class="px-3 py-1 bg-gray-800 rounded">Tailwind CSS</span>
                         <span class="px-3 py-1 bg-gray-800 rounded">MySQL</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded">Stripe API</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded">Spatie Permissions</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded">Khalti API</span>
                     </div>
                 </div>
             </div>

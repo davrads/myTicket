@@ -53,11 +53,11 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Enter Your Name
+                                        Your Name
                                     </label>
                                     <input type="text" name="name"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                        placeholder="John Doe">
+                                        placeholder="Enter Your Name">
                                 </div>
 
                                 <div>
@@ -66,7 +66,7 @@
                                     </label>
                                     <input type="email" name="email"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                        placeholder="john@example.com">
+                                        placeholder="Enter Your Email Address">
                                 </div>
 
                                 <div>
@@ -75,7 +75,7 @@
                                     </label>
                                     <input type="tel" name="contact"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                        placeholder="+1 (555) 123-4567">
+                                        placeholder="Enter Your Contact Number">
                                 </div>
                             </div>
 
@@ -85,11 +85,11 @@
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                                        Enter Event Name
+                                        Event Name
                                     </label>
                                     <input type="text" name="event_name"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                        placeholder="Summer Music Festival 2024">
+                                        placeholder="Enter Your Event Name">
                                 </div>
 
                                 <div>
