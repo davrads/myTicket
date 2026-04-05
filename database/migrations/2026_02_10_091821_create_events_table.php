@@ -22,7 +22,6 @@ return new class extends Migration
             $table->time('time');
             $table->integer('ticket_price');
             $table->integer(column: 'total_tickets');
-            $table->integer('remaining_tickets');
             $table->timestamps();
         });
     }

@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Event extends Model
 {
-protected
+protected $casts=[
+"images"=>"array"
+];
 public function organizer(): BelongsTo
 {
     return $this->belongsTo(related: Organizer::class);

@@ -12,12 +12,17 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('organizer_id', Auth::Guard('organizer')->user()->id);
+}
 
     public static function form(Form $form): Form
     {
@@ -26,15 +31,9 @@ class EventResource extends Resource
                 Forms\Components\TextInput::make('event_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('images')
+                Forms\Components\RichEditor::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('organizer_id')
-                    ->relationship('organizer', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('venue')
                     ->required()
                     ->maxLength(255),
@@ -44,13 +43,15 @@ class EventResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('ticket_price')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->prefix('NRs.'),
                 Forms\Components\TextInput::make('total_tickets')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('remaining_tickets')
+                Forms\Components\FileUpload::make('images')
                     ->required()
-                    ->numeric(),
+                    ->multiple()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -59,10 +60,9 @@ class EventResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('event_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('organizer.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->searchable()
+                    ->limit(20),
+
                 Tables\Columns\TextColumn::make('venue')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
@@ -73,9 +73,6 @@ class EventResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('total_tickets')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('remaining_tickets')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
