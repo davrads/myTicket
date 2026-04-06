@@ -1,4 +1,31 @@
 <x-frontend-layout>
+<!-- NEW: Upcoming Events Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-10">Upcoming Events</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($upcomingEvents as $event)
+                <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
+                    @if($event->image)
+                        <img src="{{ asset('storage/' . $event->profile_image) }}" class="w-full h-48 object-cover">
+                    @else
+                        <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl">📅</div>
+                    @endif
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl">{{ $event->title }}</h3>
+                        {{-- <p class="text-gray-600 text-sm">{{ $event->date->format('d M Y') }} • {{ $event->location ?? 'Kathmandu' }}</p> --}}
+                        <p class="text-2xl font-bold text-blue-600 mt-3">Rs. {{ number_format($event->price ?? 0) }}</p>
+                        {{-- <a href="{{ route('event.show', $event) }}" --}}
+                           class="mt-6 block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-2xl font-medium">
+                            Book Ticket
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</section>
+{{-- Featured Organizers --}}
 <section class="bg-gray-50 py-12">
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Featured Organizers</h2>

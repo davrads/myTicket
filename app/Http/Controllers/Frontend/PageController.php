@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Mail\EventRequestNotification;
+use App\Models\Event;
 use App\Models\Organizer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -12,8 +13,21 @@ class PageController extends BaseController
 {
     public function home()
     {
-        $organizers = Organizer::where('status', 'approved')->where('expire_date', '>=', date('Y-m-d'))->orderBy('id', 'desc')->get();
-        return view('frontend.home', compact('organizers'));
+
+   // Existing organizers query (kept exactly as you had it)
+    $organizers = Organizer::where('expire_date', '>=', now())
+        ->orderBy('id', 'desc')
+        ->get();
+
+    // Upcoming events - flexible field name handling
+    $upcomingEvents = Event::where(function ($query) {
+    $query->where('date', '>=', now());
+})
+->orderBy('date', 'ASC')
+->take(8)
+->get();
+
+    return view('frontend.home', compact('organizers', 'upcomingEvents'));
     }
 
     public function event_request(Request $request)

@@ -10,8 +10,9 @@ class Event extends Model
 protected $casts=[
 "images"=>"array"
 ];
+protected $fillable = ['title', 'description', 'date', 'location', 'price', 'image', 'organizer_id'];
 public function organizer(): BelongsTo
 {
-    return $this->belongsTo(related: Organizer::class);
+    return $this->belongsTo(Organizer::class);
 }
 }
