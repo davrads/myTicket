@@ -1,87 +1,74 @@
 <x-frontend-layout>
-<!-- NEW: Upcoming Events Section -->
-<section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-10">Upcoming Events</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @foreach($upcomingEvents as $event)
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-                    @if($event->image)
-                        <img src="{{ asset('storage/' . $event->profile_image) }}" class="w-full h-48 object-cover">
-                    @else
-                        <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-xl">📅</div>
-                    @endif
-                    <div class="p-6">
-                        <h3 class="font-semibold text-xl">{{ $event->title }}</h3>
-                        {{-- <p class="text-gray-600 text-sm">{{ $event->date->format('d M Y') }} • {{ $event->location ?? 'Kathmandu' }}</p> --}}
-                        <p class="text-2xl font-bold text-blue-600 mt-3">Rs. {{ number_format($event->price ?? 0) }}</p>
-                        {{-- <a href="{{ route('event.show', $event) }}" --}}
-                           class="mt-6 block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-2xl font-medium">
-                            Book Ticket
-                        </a>
+    <!-- NEW: Upcoming Events Section -->
+ <section class="bg-gray-100 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Special Events</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                @foreach ($events as $event)
+                    <x-event-card :event="$event" />
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Featured Organizers</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach ($organizers as $organizer)
+                    <a href="{{ route('organizer', $organizer->id) }}"
+                    class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
+                    <div class="relative h-48 bg-gray-200">
+                    <!-- Shop Image -->
+                    <img src="{{ asset(Storage::url($organizer->profile_image)) }}" alt="{{ $organizer->name }}"
+                        class="w-full h-full object-cover">
+                    <!-- Shop Type Badge -->
+
+            </div>
+
+            <div class="p-6">
+                <div class="space-y-2">
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        <span>{{ $organizer->address }}</span>
+                    </div>
+
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
+                            </path>
+                        </svg>
+                        <span>{{ $organizer->contact }}</span>
+                    </div>
+
+                    <div class="flex items-center text-gray-600">
+                        <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                        <span>{{ $organizer->email }}</span>
                     </div>
                 </div>
+            </div>
+            </a>
             @endforeach
         </div>
-    </div>
-</section>
-{{-- Featured Organizers --}}
-<section class="bg-gray-50 py-12">
-    <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Featured Organizers</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ($organizers as $organizer)
-                {{-- <a href="{{ route('', $shop->id) }}"
-                    class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
-                    <div class="relative h-48 bg-gray-200"> --}}
-                        <!-- Shop Image -->
-                        <img src="{{ asset(Storage::url($organizer->profile_image)) }}" alt="{{ $organizer->name }}"
-                            class="w-full h-full object-cover">
-                        <!-- Shop Type Badge -->
-
-                    </div>
-
-                    <div class="p-6">
-                        <div class="space-y-2">
-                            <div class="flex items-center text-gray-600">
-                                <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span>{{ $organizer->address }}</span>
-                            </div>
-
-                            <div class="flex items-center text-gray-600">
-                                <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z">
-                                    </path>
-                                </svg>
-                                <span>{{ $organizer->contact }}</span>
-                            </div>
-
-                            <div class="flex items-center text-gray-600">
-                                <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                <span>{{ $organizer->email }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @endforeach
         </div>
-    </div>
-</section>
+    </section>
     <div class="min-h-screen bg-gradient-to-b from-gray-50 to-white py-12 px-4">
         <div class="max-w-6xl mx-auto">
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -131,7 +118,8 @@
                             @csrf
                             <!-- Organizer Section -->
                             <div class="space-y-4">
-                                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Organizer Information</h3>
+                                <h3 class="text-lg font-semibold text-gray-800 border-b pb-2">Organizer Information
+                                </h3>
 
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">

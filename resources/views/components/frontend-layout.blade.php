@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <header class="bg-[var(--color-primary)] text-white sticky top-0 py-2">
+    <header class="bg-[var(--color-primary)] text-white sticky top-0 py-2 z-50">
 
         <x-frontend-navbar />
 

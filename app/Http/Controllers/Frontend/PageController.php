@@ -13,21 +13,14 @@ class PageController extends BaseController
 {
     public function home()
     {
+        $events = Event::where('date', '>=', now())
+            ->orderBy('id', 'desc')
+            ->get();
+        $organizers = Organizer::where('expire_date', '>=', now())
+            ->orderBy('id', 'desc')
+            ->get();
 
-   // Existing organizers query (kept exactly as you had it)
-    $organizers = Organizer::where('expire_date', '>=', now())
-        ->orderBy('id', 'desc')
-        ->get();
-
-    // Upcoming events - flexible field name handling
-    $upcomingEvents = Event::where(function ($query) {
-    $query->where('date', '>=', now());
-})
-->orderBy('date', 'ASC')
-->take(8)
-->get();
-
-    return view('frontend.home', compact('organizers', 'upcomingEvents'));
+        return view('frontend.home', compact('organizers', 'events'));
     }
 
     public function event_request(Request $request)
@@ -50,4 +43,32 @@ class PageController extends BaseController
         Mail::to("vikasbsnt123@gmail.com")->send(new EventRequestNotification($organizer));
         return redirect()->back();
     }
+
+    public function organizer(Request $request, $id)
+{
+if($request->sort){
+    if($request->sort == 'asc'){
+        $organizer = Organizer::where('expire_date', '>=', now())
+        ->where('id', $id)
+        ->orderBy('created_at', 'asc')
+        ->first();
+    }else{
+        $organizer = Organizer::where('expire_date', '>=', now())
+        ->where('id', $id)
+        ->orderBy('created_at', 'desc')
+        ->first();
+    }
+}
+    $organizer = Organizer::where('expire_date', '>=', now())
+        ->where('id', $id)
+        ->first();
+
+    if (!$organizer) {
+        return redirect()->back()->with('error', 'Organizer not found or expired');
+    }
+
+    $events = $organizer->events ?? [];
+
+    return view('frontend.organizer', compact('organizer', 'events'));
+}
 }
