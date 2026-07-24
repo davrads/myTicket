@@ -11,7 +11,7 @@ FROM php:8.2-fpm AS backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpq-dev libonig-dev libzip-dev libicu-devzip \
+    git curl unzip libpq-dev libonig-dev libzip-dev libicu-dev zip \
     && docker-php-ext-install pdo pdo_mysql mbstring zip intl
 
 # Install Composer
