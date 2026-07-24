@@ -11,8 +11,8 @@ FROM php:8.2-fpm AS backend
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl unzip libpq-dev libonig-dev libzip-dev zip \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip
+    git curl unzip libpq-dev libonig-dev libzip-dev libicu-devzip \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip intl
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -26,11 +26,12 @@ COPY . .
 COPY --from=frontend /app/public/build ./public/build
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Laravel setup
-RUN php artisan config:clear && \
+CMD php artisan package:discover --ansi && \
+    php artisan filament:upgrade && \
+    php artisan config:clear && \
     php artisan route:clear && \
-    php artisan view:clear
-
-CMD ["php-fpm"]
+    php artisan view:clear && \
+    php-fpm
