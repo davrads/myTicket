@@ -29,9 +29,10 @@ COPY --from=frontend /app/public/build ./public/build
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Laravel setup
-CMD php artisan package:discover --ansi && \
-    php artisan filament:upgrade && \
-    php artisan config:clear && \
+RUN php artisan config:clear && \
     php artisan route:clear && \
     php artisan view:clear && \
     php-fpm
+
+ #Start serve
+ CMD php artisan serve --host=0.0.0.0 --port=8000
